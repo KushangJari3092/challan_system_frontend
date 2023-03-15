@@ -1,0 +1,28 @@
+.navbar {
+  /* height: 50px; */
+  padding-top: 2vh;
+  padding-bottom: 2vh;
+}
+
+.navbar .container-fluid {
+  /* border: 2px solid red; */
+}
+
+.navbar-brand {
+  /* border: 2px solid white; */
+}
+
+.navbar-collapse {
+  /* border: 2px solid green; */
+  /* width: 10%; */
+  /* background-color: aliceblue; */
+  flex-basis: 100%;
+  flex-grow: 0;
+  margin-right: 35px;
+  /* align-items: center; */
+}
+.navbar-expand-lg .navbar-nav .dropdown-menu {
+  position: fixed;
+  min-width: 5rem;
+  border: 1px solid rgba(0, 0, 0, 0.195) !important;
+}
