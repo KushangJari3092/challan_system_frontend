@@ -1,29 +1,22 @@
-import { Button, Checkbox, Form, Input } from 'antd';
-import { useState } from 'react';
+import { Button, Form, Input } from 'antd';
+import { useContext, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom'
-
+import { context } from '../App';
 import '../style/login.css'
 
-const onFinish = (values) => {
-    console.log('Success:', values);
-};
-const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-};
 const Login = () => {
 
     const history = useHistory()
     const params = useParams();
     const { person } = params;
 
+    const { user, setUser, nav, setNav } = useContext(context);
     const [uname, setUname] = useState('')
     const [password, setPassword] = useState('')
 
+
     const handleLogin = async (e) => {
         e.preventDefault();
-        console.log('uname :>> ', uname);
-        console.log('password :>> ', password);
-        // alert(uname + " - " + password)
 
         const res = await fetch('http://localhost:7100/login', {
             method: 'POST',
@@ -40,21 +33,23 @@ const Login = () => {
             window.alert(data.err)
         }
         else if (data.success) {
-            // dispatch({ type: 'USER', payload: true })
-            window.alert(data.success)
-            if (person === 'admin')
+            // window.alert(data.success)
+            if (person === 'admin') {
+                setUser(data);
+                alert("admin login successful")
                 history.push('/dashboard')
-            if (person === 'police')
+            }
+            if (person === 'police') {
+                alert("police login successful")
+                setUser(data);
                 history.push('/')
-
+            }
         }
-
-
     }
 
     return (
         <>
-            <main>
+            <main className='padding-top'>
                 <div class="box">
                     <div class="inner-box">
                         <div className="left">
@@ -97,24 +92,9 @@ const Login = () => {
                                         <Input.Password onChange={(e) => setPassword(e.target.value)} />
                                     </Form.Item>
 
-                                    <Form.Item
-                                        name="remember"
-                                        valuePropName="checked"
-                                        wrapperCol={{
-                                            offset: 8,
-                                            span: 16,
-                                        }}
-                                    >
-                                        <Checkbox>Remember me</Checkbox>
-                                    </Form.Item>
 
-                                    <Form.Item
-                                        wrapperCol={{
-                                            offset: 8,
-                                            span: 16,
-                                        }}
-                                    >
-                                        <Button type="primary" htmlType="submit" onClick={handleLogin}>
+                                    <Form.Item wrapper Col={{ offset: 8, span: 16, }}>
+                                        <Button type="primary" htmlType='submit' onClick={handleLogin}>
                                             Submit
                                         </Button>
                                     </Form.Item>

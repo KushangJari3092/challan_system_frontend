@@ -1,3 +1,9 @@
+.navContainer {
+  z-index: 2;
+  position: fixed;
+  width: 100vw;
+  /* z-index: 2; */
+}
 .navbar {
   /* height: 50px; */
   padding-top: 2vh;
@@ -25,4 +31,7 @@
   position: fixed;
   min-width: 5rem;
   border: 1px solid rgba(0, 0, 0, 0.195) !important;
+}
+#password {
+  height: 30px;
 }

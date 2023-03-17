@@ -1,5 +1,6 @@
 import React from 'react'
-import { useState } from 'react';
+import { useState, useContext, useEffect } from 'react';
+import { context } from "../App";
 import { useHistory, useLocation } from "react-router-dom"
 import '../style/dashboard.css'
 import {
@@ -16,8 +17,8 @@ import {
     MenuFoldOutlined,
     MenuUnfoldOutlined,
 } from '@ant-design/icons';
-import { color } from '@mui/system';
-import { Layout, Menu, theme } from 'antd';
+import { Cookies } from "react-cookie";
+import { Layout, Menu, theme, message, Result } from 'antd';
 import Register from './Register';
 import InfoCard from './dhashboard components/InfoCard';
 const { Header, Content, Footer, Sider } = Layout;
@@ -27,6 +28,8 @@ export default function Dashboard() {
     // const location = useLocation();
     // const currentPath = location.pathname;
     // alert(currentPath);
+    const cookies = new Cookies();
+    const { user, setUser, nav, setNav } = useContext(context);
     const [collapsed, setCollapsed] = useState(false);
     const [sliderItem, setSliderItem] = useState('dashboard')
     const [registerFor, setRegisterFor] = useState('')
@@ -34,9 +37,34 @@ export default function Dashboard() {
         token: { colorBgContainer },
     } = theme.useToken();
 
+    const [messageApi, contextHolder] = message.useMessage();
+
+    const SuccessMsg = () => {
+        messageApi.open({
+            type: 'success',
+            content: (
+                <Result
+                    status="success"
+                    title={cookies.get('person') + " Login successful"}
+                />
+            ),
+            duration: 3,
+            style: {
+                marginTop: '10vh',
+            },
+        });
+
+    };
+    useEffect(() => {
+        setNav(false);
+        // SuccessMsg();
+    }, []);
+
+
     const history = useHistory()
     return (
         <>
+            {contextHolder}
             <div className='dashboard'>
                 <Layout hasSider className='main'>
                     <Sider className='sider' collapsible trigger={null} collapsed={collapsed} width={210}>
@@ -173,6 +201,7 @@ export default function Dashboard() {
                                             icon: <HomeOutlined />,
                                             label: 'Home',
                                             onClick: () => {
+                                                setNav(true)
                                                 setSliderItem('home')
                                                 history.push('/')
                                             },
@@ -198,17 +227,16 @@ export default function Dashboard() {
                             })}
                             <h4>Admin Dashboard</h4>
                         </Header>
-                        <Content className='dashboardContent'>
+                        <Content className='dashboardContent' style={{ padding: 0, paddingBottom: 20 }}>
                             <div className="dashboardContainer">
-                                <div style={{ padding: 20, }}>
-                                    {/* <p>long content</p> */}
+                                <div style={{ padding: 20 }}>
                                     {sliderItem === 'registration' && <Register registerFor={registerFor} />}
                                     {sliderItem === 'dashboard' && <InfoCard />}
                                 </div>
                             </div>
                         </Content>
                         <Footer className='footer'>
-                            Challan System - Design Engineering ©20cp026 by Kushang Jariwala
+                            Challan System - Design Engineering ©20cp026-20cp034-20cp016
                         </Footer>
                     </Layout>
                 </Layout>

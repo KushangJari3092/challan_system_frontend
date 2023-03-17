@@ -4,43 +4,57 @@ import { Avatar, Card, Skeleton, Switch, Descriptions } from 'antd';
 const { Meta } = Card;
 
 export default function InfoCard() {
-    const [loading, setLoading] = useState(false);
-    const onChange = (checked) => {
-        setLoading(!checked);
-    };
+
+    const [adminData, setAdminData] = useState({})
     const getInformation = async () => {
-        // const res = await fetch('')
+        try {
+            // alert("hii1")
+            const res = await fetch("http://localhost:7100/adminInfo", {
+                method: 'GET',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include'
+            });
+            const data = await res.json();
+            console.log('data :>> ', data);
+            setAdminData(data);
+
+        } catch (err) {
+            console.log('err in info card :>> ', err);
+        }
     }
     useEffect(() => {
         getInformation();
     }, [])
     return (
         <>
-            {/* <Switch checked={!loading} onChange={onChange} /> */}
 
-            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                <h4>Admin Information</h4>
+            <form method='GET'>
+                <div className="" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                    <h4>Admin Information</h4>
 
-                <Card className='infoCard' loading={loading}>
-                    <Meta
-                        avatar={<Avatar src="https://joesch.moe/api/v1/random" />}
-                        title="Admin name"
-                        description=""
-                    />
-                    <div className="info">
-                        <Descriptions title="Information">
-                            <Descriptions.Item label="ID">Zhou Maomao</Descriptions.Item>
-                            <Descriptions.Item label="Mobile">1810000000</Descriptions.Item>
-                            <Descriptions.Item label="Email">Hangzhou, Zhejiang</Descriptions.Item>
-                            <Descriptions.Item label="Adhhar card">empty</Descriptions.Item>
-                            <Descriptions.Item label="Address">
-                                No. 18, Wantang Road, Xihu District, Hangzhou, Zhejiang, China
-                            </Descriptions.Item>
-                        </Descriptions>
+                    <Card className='infoCard mt-0 pt-0'>
+                        <Meta
+                            avatar={<Avatar src="https://joesch.moe/api/v1/random" />}
+                            title={adminData.aName}
 
-                    </div>
-                </Card>
-            </div>
+                        />
+                        <div className="info">
+                            <Descriptions title="Information">
+                                <Descriptions.Item label="ID">{adminData.aId}</Descriptions.Item>
+                                <Descriptions.Item label="Mobile">{adminData.aMobile}</Descriptions.Item>
+                                <Descriptions.Item label="Email">{adminData.aEmail}</Descriptions.Item>
+                                <Descriptions.Item label="Adhhar card">{adminData.aAdhaar}</Descriptions.Item>
+                                <Descriptions.Item label="Gender">{adminData.aGender}</Descriptions.Item>
+                                <Descriptions.Item label="Birth Date">{adminData.aBday}</Descriptions.Item>
+                                <Descriptions.Item label="Address">{adminData.aAddress}</Descriptions.Item>
+                            </Descriptions>
+                        </div>
+                    </Card>
+                </div>
+            </form>
 
 
 
