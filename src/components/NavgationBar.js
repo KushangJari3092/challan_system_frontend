@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import Cookies from "js-cookie";
 import { Link } from 'react-router-dom';
-import { context } from '../App';
+import context from "../Context/userContext.js";
 import '../style/navbar.css'
 
 

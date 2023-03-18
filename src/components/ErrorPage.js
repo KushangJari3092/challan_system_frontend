@@ -1,7 +1,7 @@
 import React, { useEffect, useContext } from 'react'
 import { Layout, Menu, theme, message, Result } from 'antd';
 import Cookies from 'js-cookie';
-import { context } from '../App'
+import context from '../Context/userContext'
 
 
 export default function ErrorPage() {

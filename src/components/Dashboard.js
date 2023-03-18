@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState, useContext, useEffect } from 'react';
-import { context } from "../App";
-import { useHistory, useLocation } from "react-router-dom"
+import context from "../Context/userContext";
+import { useHistory, NavLink, useLocation } from "react-router-dom"
 import '../style/dashboard.css'
 import {
     QuestionCircleOutlined,
@@ -60,11 +60,12 @@ export default function Dashboard() {
 
 
     const history = useHistory()
-    if (!user.id) {
+    if (!user._id) {
         return (
             <>
                 <div style={{ display: 'flex', height: '100vh', justifyContent: 'center', alignItems: 'center' }}>
                     <h2>loading...</h2>
+                    <NavLink to='../' className='nav-link'>Go to Home</NavLink>
                 </div>
             </>
         )

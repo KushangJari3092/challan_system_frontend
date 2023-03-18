@@ -6,7 +6,7 @@ import {
   useLocation
 } from "react-router-dom";
 import Cookies from "js-cookie";
-import { createContext, useState, useEffect } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import Register from './components/Register.js';
 import login from './components/Login';
 import Dashboard from './components/Dashboard';
@@ -15,7 +15,7 @@ import NavigationBar from './components/NavgationBar';
 import Logout from './components/Logout';
 import ErrorPage from './components/ErrorPage';
 import PoliceForm from './components/PoliceForm';
-export const context = createContext(null);
+import userContext from './Context/userContext';
 
 
 function App() {
@@ -52,7 +52,7 @@ function App() {
   console.log('user in app :>> ', user);
   return (
     <>
-      <context.Provider value={{ user, setUser, nav, setNav, logged, setLogged }}>
+      <userContext.Provider value={{ user, setUser, nav, setNav, logged, setLogged }}>
         <Router>
           <div>
             {nav && <NavigationBar />}
@@ -66,7 +66,7 @@ function App() {
             </Switch>
           </div>
         </Router>
-      </context.Provider>
+      </userContext.Provider>
 
     </>
   );

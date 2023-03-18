@@ -2,7 +2,7 @@ import { Button, Form, Input } from 'antd';
 import { useContext, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom'
 import Cookies from 'js-cookie';
-import { context } from '../App';
+import context from "../Context/userContext.js";
 import '../style/login.css'
 import { Layout, Menu, theme, message, Result } from 'antd';
 
@@ -12,7 +12,7 @@ const Login = () => {
     const params = useParams();
     const { person } = params;
 
-    const { user, logged, setLogged } = useContext(context);
+    const { user, setUser, nav, setNav, logged, setLogged } = useContext(context);
     const [uname, setUname] = useState('')
     const [password, setPassword] = useState('')
 
@@ -38,6 +38,7 @@ const Login = () => {
         }
         else if (data.success) {
             // window.alert(data.success)
+            setUser(data);
             if (person === 'admin') {
 
                 alert("yes")
