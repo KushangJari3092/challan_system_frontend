@@ -1,8 +1,10 @@
 import { Button, Form, Input } from 'antd';
 import { useContext, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom'
+import Cookies from 'js-cookie';
 import { context } from '../App';
 import '../style/login.css'
+import { Layout, Menu, theme, message, Result } from 'antd';
 
 const Login = () => {
 
@@ -10,9 +12,11 @@ const Login = () => {
     const params = useParams();
     const { person } = params;
 
-    const { user, setUser, nav, setNav } = useContext(context);
+    const { user, logged, setLogged } = useContext(context);
     const [uname, setUname] = useState('')
     const [password, setPassword] = useState('')
+
+    const [messageApi, contextHolder] = message.useMessage();
 
 
     const handleLogin = async (e) => {
@@ -35,20 +39,52 @@ const Login = () => {
         else if (data.success) {
             // window.alert(data.success)
             if (person === 'admin') {
-                setUser(data);
+
+                alert("yes")
+                messageApi.open({
+                    type: 'success',
+                    content: (
+                        <Result
+                            status="success"
+                            title={Cookies.get('person') + " Login successful"}
+                        />
+                    ),
+                    duration: 3,
+                    style: {
+                        marginTop: '10vh',
+                    },
+                });
+
                 alert("admin login successful")
+                setLogged(true);
                 history.push('/dashboard')
             }
-            if (person === 'police') {
-                alert("police login successful")
-                setUser(data);
-                history.push('/')
-            }
+        }
+        if (person === 'police') {
+            // messageApi.open({
+            //     type: 'success',
+            //     content: (
+            //         <Result
+            //             status="success"
+            //             title={Cookies.get('person') + " Login successful"}
+            //         />
+            //     ),
+            //     duration: 3,
+            //     style: {
+            //         marginTop: '10vh',
+            //     },
+            // });
+            alert("police login successful")
+            setLogged(true)
+            history.push('/policeForm')
         }
     }
 
+
     return (
         <>
+            {contextHolder}
+
             <main className='padding-top'>
                 <div class="box">
                     <div class="inner-box">
@@ -120,5 +156,6 @@ const Login = () => {
             </main>
         </>
     )
+
 };
 export default Login;

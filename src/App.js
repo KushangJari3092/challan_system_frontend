@@ -6,7 +6,7 @@ import {
   useLocation
 } from "react-router-dom";
 import Cookies from "js-cookie";
-import { createContext, useState } from 'react';
+import { createContext, useState, useEffect } from 'react';
 import Register from './components/Register.js';
 import login from './components/Login';
 import Dashboard from './components/Dashboard';
@@ -14,18 +14,45 @@ import Home from './components/Home';
 import NavigationBar from './components/NavgationBar';
 import Logout from './components/Logout';
 import ErrorPage from './components/ErrorPage';
+import PoliceForm from './components/PoliceForm';
 export const context = createContext(null);
 
 
 function App() {
-  const [user, setUser] = useState({ name: null, email: null, contact: null });
+  const [user, setUser] = useState({ name: null, id: null });
   const [nav, setNav] = useState(true);
+  const [logged, setLogged] = useState(false);
   // alert(Cookies.get('person'))
   // alert(document.cookie)
 
+  useEffect(async () => {
+    try {
+      const res = await fetch("http://localhost:7100/getData", {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+      })
+      const data = await res.json();
+      console.log('data in app :>> ', data);
+      if (Cookies.get('person') === 'admin') {
+        // alert("admin login successful")
+        setUser({ name: data.aName, id: data.aId });
+      }
+      if (Cookies.get('person') === 'police') {
+        setUser({ name: data.pName, id: data.pId });
+      }
+      if (Cookies.get('person')) { setLogged(true) } else { setLogged(false) }
+    } catch (err) {
+      console.log('err in app :>> ', err);
+    }
+  }, [])
+  console.log('user in app :>> ', user);
   return (
     <>
-      <context.Provider value={{ user, setUser, nav, setNav }}>
+      <context.Provider value={{ user, setUser, nav, setNav, logged, setLogged }}>
         <Router>
           <div>
             {nav && <NavigationBar />}
@@ -35,6 +62,7 @@ function App() {
               <Route exact path='/login/:person' component={login} />
               <Route exact path='/logout' component={Logout} />
               <Route exact path='/dashboard' component={Cookies.get('person') === 'admin' ? Dashboard : ErrorPage} />
+              <Route exact path='/policeForm' component={Cookies.get('person') === 'police' ? PoliceForm : ErrorPage} />
             </Switch>
           </div>
         </Router>

@@ -8,8 +8,7 @@ export default function InfoCard() {
     const [adminData, setAdminData] = useState({})
     const getInformation = async () => {
         try {
-            // alert("hii1")
-            const res = await fetch("http://localhost:7100/adminInfo", {
+            const res = await fetch("http://localhost:7100/getData", {
                 method: 'GET',
                 headers: {
                     Accept: 'application/json',

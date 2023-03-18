@@ -3,7 +3,7 @@ import { context } from '../App';
 
 export default function Home() {
     const { user, setUser } = useContext(context);
-    console.log("User ; ", user);
+    // console.log("User ; ", user);
     return (
         <>
             <div className="padding-top">

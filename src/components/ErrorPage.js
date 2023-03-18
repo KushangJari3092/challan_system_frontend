@@ -1,9 +1,12 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useContext } from 'react'
 import { Layout, Menu, theme, message, Result } from 'antd';
+import Cookies from 'js-cookie';
+import { context } from '../App'
+
 
 export default function ErrorPage() {
     const [messageApi, contextHolder] = message.useMessage();
-
+    const { setLogged } = useContext(context)
     const ErrorMsg = () => {
         messageApi.open({
             type: 'error',
@@ -22,13 +25,14 @@ export default function ErrorPage() {
     };
     useEffect(() => {
         ErrorMsg();
+        if (Cookies.get('person')) { setLogged(true) } else { setLogged(false) }
+
     }, []);
     return (
         <div style={{ color: 'red', textAlign: 'center', paddingTop: '15vh' }}>
             {contextHolder}
             <h1>Error...</h1>
-            <h4>You are not authenticated</h4>
-            <h3 >Only admin can access this page </h3>
+            <h3 >You can not access this page </h3>
         </div>
     )
 }

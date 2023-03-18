@@ -1,12 +1,15 @@
 import React, { useContext, useEffect } from 'react'
 import { useHistory } from 'react-router-dom';
 import { context } from '../App'
+import { Layout, Menu, theme, message, Result } from 'antd';
+import Cookies from 'js-cookie';
 
 
 export default function Logout() {
 
     const history = useHistory()
-    const { dispatch } = useContext(context);
+    const { user, logged, setLogged, setUser } = useContext(context)
+    const [messageApi, contextHolder] = message.useMessage();
 
     useEffect(async () => {
         const res = await fetch('http://localhost:7100/logout', {
@@ -16,18 +19,44 @@ export default function Logout() {
                 'Content-Type': 'application/json'
             },
             credentials: 'include',
-            // body:{person:''}
         })
         const data = await res.json();
         console.log('data :>> ', data);
         window.alert(data.loggedOut)
+        setUser({ name: null, id: null });
+        setLogged(false)
+        // messageApi.open({
+        //     type: 'success',
+        //     content: (
+        //         <Result
+        //             status="success"
+        //             title={Cookies.get('person') + " Logged out successfully"}
+        //         />
+        //     ),
+        //     duration: 2,
+        //     style: {
+        //         marginTop: '10vh',
+        //     },
+        // });
 
-        dispatch({ type: 'ADMIN', payload: false })
-        dispatch({ type: 'POLICE', payload: false })
         history.push('/', { replace: true })
     }
         , [])
-    return (
-        <div><h1>Logout</h1></div>
-    )
+
+    if (!user.id) {
+        return (
+            <>
+                <div style={{ display: 'flex', height: '100vh', justifyContent: 'center', alignItems: 'center' }}>
+                    <h2>loading...</h2>
+                </div>
+            </>
+        )
+    } else {
+        return (
+            <div>
+                {contextHolder}
+                <h1>Logout</h1>
+            </div>
+        )
+    }
 }
