@@ -18,7 +18,7 @@ import {
     MenuUnfoldOutlined,
 } from '@ant-design/icons';
 import Cookies from "js-cookie";
-import { Layout, Menu, theme, message, Result } from 'antd';
+import { Layout, Menu, theme, message, Result, Spin } from 'antd';
 import Register from './Register';
 import InfoCard from './dhashboard components/InfoCard';
 const { Header, Content, Footer, Sider } = Layout;
@@ -56,20 +56,21 @@ export default function Dashboard() {
         setNav(false);
         if (Cookies.get('person')) { setLogged(true) } else { setLogged(false) }
         SuccessMsg();
+        console.log('user in dashboard :>> ', user);
     }, []);
 
 
     const history = useHistory()
-    if (!user._id) {
+    if (!user.id) {
         return (
             <>
                 <div style={{ display: 'flex', height: '100vh', justifyContent: 'center', alignItems: 'center' }}>
-                    <h2>loading...</h2>
-                    <NavLink to='../' className='nav-link'>Go to Home</NavLink>
+                    <Spin tip="Loading" size="large" />
                 </div>
             </>
         )
-    } else {
+    }
+    else {
         return (
             <>
                 {/* {contextHolder} */}

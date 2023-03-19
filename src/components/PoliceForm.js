@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 import '../style/policeForm.css'
 import { Layout, Menu, theme, message, Result } from 'antd';
 import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
-import { Button, Input, Form, Select, Upload } from 'antd';
+import { Button, Input, Form, Select, Upload, Spin } from 'antd';
 const { TextArea } = Input;
 
 const { Header, Content, Footer } = Layout;
@@ -39,7 +39,7 @@ const PoliceForm = () => {
         return (
             <>
                 <div style={{ display: 'flex', height: '100vh', justifyContent: 'center', alignItems: 'center' }}>
-                    <h2>loading...</h2>
+                    <Spin tip="Loading" size="large" />
                 </div>
             </>
         )

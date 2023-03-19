@@ -12,8 +12,9 @@ export default function ErrorPage() {
             type: 'error',
             content: (
                 <Result
-                    status="error"
-                    title="Authentication Error"
+                    status="403"
+                    title="403"
+                    subTitle="Sorry, you are not authorized to access this page."
                 />
             ),
             duration: 2,
