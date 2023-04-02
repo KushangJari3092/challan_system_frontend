@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
 import { Avatar, Card, Skeleton, Switch, Descriptions, Spin } from 'antd';
+import Cookies from 'js-cookie';
 const { Meta } = Card;
 
 export default function InfoCard() {
@@ -19,8 +20,8 @@ export default function InfoCard() {
                 credentials: 'include'
             });
             const data = await res.json();
-            if (data.aId) setLoad(false)
-            console.log('data :>> ', data);
+            if (data.aId || data.superId) setLoad(false)
+            console.log('data in infocard:>> ', data);
             setAdminData(data);
 
         } catch (err) {
@@ -49,18 +50,30 @@ export default function InfoCard() {
                         <Card className='infoCard mt-0 pt-0'>
                             <Meta
                                 avatar={<Avatar src="https://joesch.moe/api/v1/random" />}
-                                title={adminData.aName}
+                                title={Cookies.get('person') === 'admin' ? adminData.aName : adminData.name}
 
                             />
                             <div className="info">
                                 <Descriptions title="Information">
-                                    <Descriptions.Item label="ID">{adminData.aId}</Descriptions.Item>
-                                    <Descriptions.Item label="Mobile">{adminData.aMobile}</Descriptions.Item>
-                                    <Descriptions.Item label="Email">{adminData.aEmail}</Descriptions.Item>
-                                    <Descriptions.Item label="Adhhar card">{adminData.aAdhaar}</Descriptions.Item>
-                                    <Descriptions.Item label="Gender">{adminData.aGender}</Descriptions.Item>
-                                    <Descriptions.Item label="Birth Date">{adminData.aBday}</Descriptions.Item>
-                                    <Descriptions.Item label="Address">{adminData.aAddress}</Descriptions.Item>
+                                    {
+                                        Cookies.get('person') === 'admin' &&
+                                        <>
+                                            <Descriptions.Item label="ID">{adminData.aId}</Descriptions.Item>
+                                            <Descriptions.Item label="Mobile">{adminData.aMobile}</Descriptions.Item>
+                                            <Descriptions.Item label="Email">{adminData.aEmail}</Descriptions.Item>
+                                            <Descriptions.Item label="Adhhar card">{adminData.aAdhaar}</Descriptions.Item>
+                                            <Descriptions.Item label="Gender">{adminData.aGender}</Descriptions.Item>
+                                            <Descriptions.Item label="Birth Date">{adminData.aBday}</Descriptions.Item>
+                                            <Descriptions.Item label="Address">{adminData.aAddress}</Descriptions.Item>
+                                        </>
+                                    }
+                                    {
+                                        Cookies.get('person') === 'superAdmin' &&
+                                        <>
+                                            <Descriptions.Item label="ID">{adminData.superId}</Descriptions.Item>
+                                        </>
+                                    }
+
                                 </Descriptions>
                             </div>
                         </Card>

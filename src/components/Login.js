@@ -1,11 +1,16 @@
 import { Button, Form, Input } from 'antd';
 import { useContext, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom'
-import Cookies from 'js-cookie';
 import context from "../Context/userContext.js";
 import '../style/login.css'
 import { Layout, Menu, theme, message, Result, Spin, Alert } from 'antd';
 import Msg from './Msg.js';
+
+import userImg from '../assets/user.png';
+import adminImg from '../assets/Admin.png';
+import policeImg from '../assets/police.png';
+import PoliceForm from './PoliceForm.js';
+import Cookies from 'js-cookie';
 
 const Login = () => {
 
@@ -36,16 +41,20 @@ const Login = () => {
         const data = await res.json();
         console.log('data in login :>> ', data);
 
-        if (data.err) {
+        if (data?.err) {
             window.alert(data.err)
         }
-        else if (data.success) {
+        else if (data?.success) {
             setLoad(true)
             if (person === 'admin') {
-                setUser({ name: data.aName, id: data.aId });
+                if (Cookies.get('person') === 'superAdmin')
+                    setUser({ name: data?.name, id: data?.superId });
+                if (Cookies.get('person') === 'admin')
+                    setUser({ name: data.aName, id: data.aId });
                 setLogged(true);
                 history.push('/dashboard')
             }
+
             if (person === 'police') {
                 setUser({ name: data.pName, id: data.pId });
                 setLogged(true)
@@ -129,11 +138,11 @@ const Login = () => {
 
                             <div className="right">
                                 {person === 'admin' &&
-                                    <img src="https://niramayamp.nic.in/Resources/Images/Icon/Admin.png" alt="admin" width='70%' height='70%' />}
+                                    <img src={adminImg} alt="admin" width='70%' height='70%' />}
                                 {person === 'police' &&
-                                    <img src="https://www.seekpng.com/png/detail/529-5295999_law-enforcement-agency-icon.png" alt="admin" width='100%' height='70%' />}
+                                    <img src={policeImg} alt="police" width='100%' height='70%' />}
                                 {person === 'user' &&
-                                    <img src="https://pngimage.net/wp-content/uploads/2018/06/gambar-user-png-4.png" alt="admin" width='90%' height='60%' />}
+                                    <img src={userImg} alt="user" width='90%' height='75%' />}
                             </div>
 
                         </div>

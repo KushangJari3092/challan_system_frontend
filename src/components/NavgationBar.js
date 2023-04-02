@@ -44,7 +44,7 @@ function NavigationBar() {
                                     </Link>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown" >
                                         {
-                                            Cookies.get('person') === 'admin' &&
+                                            (Cookies.get('person') === 'admin' || Cookies.get('person') === 'superAdmin') &&
                                             <Link class="dropdown-item" to="/dashboard" role="button" style={{ fontWeight: 'bold' }}> Dashboard</Link>
                                         }
                                         {

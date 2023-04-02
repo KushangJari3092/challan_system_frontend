@@ -37,8 +37,10 @@ function App() {
       })
       const data = await res.json();
       console.log('data in app :>> ', data);
+      if (Cookies.get('person') === 'superAdmin') {
+        setUser({ name: data.name, id: data.superId });
+      }
       if (Cookies.get('person') === 'admin') {
-        // alert("admin login successful")
         setUser({ name: data.aName, id: data.aId });
       }
       if (Cookies.get('person') === 'police') {
@@ -61,7 +63,7 @@ function App() {
               <Route exact path='/register' component={Cookies.get('person') === 'admin' ? Register : ErrorPage} />
               <Route exact path='/login/:person' component={login} />
               <Route exact path='/logout' component={Logout} />
-              <Route exact path='/dashboard' component={Cookies.get('person') === 'admin' ? Dashboard : ErrorPage} />
+              <Route exact path='/dashboard' component={Cookies.get('person') === 'admin' || 'superAdmin' ? Dashboard : ErrorPage} />
               <Route exact path='/policeForm' component={Cookies.get('person') === 'police' ? PoliceForm : ErrorPage} />
             </Switch>
           </div>

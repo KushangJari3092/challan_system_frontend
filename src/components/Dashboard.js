@@ -2,7 +2,10 @@ import React from 'react'
 import { useState, useContext, useEffect } from 'react';
 import context from "../Context/userContext";
 import { useHistory, NavLink, useLocation } from "react-router-dom"
+import Register from './Register';
+import InfoCard from './dhashboard components/InfoCard';
 import '../style/dashboard.css'
+import Cookies from "js-cookie";
 import {
     QuestionCircleOutlined,
     DashboardOutlined,
@@ -17,10 +20,7 @@ import {
     MenuFoldOutlined,
     MenuUnfoldOutlined,
 } from '@ant-design/icons';
-import Cookies from "js-cookie";
 import { Layout, Menu, theme, message, Result, Spin } from 'antd';
-import Register from './Register';
-import InfoCard from './dhashboard components/InfoCard';
 const { Header, Content, Footer, Sider } = Layout;
 
 
@@ -35,7 +35,6 @@ export default function Dashboard() {
     } = theme.useToken();
 
     const [messageApi, contextHolder] = message.useMessage();
-
     const SuccessMsg = () => {
         messageApi.open({
             type: 'success',
