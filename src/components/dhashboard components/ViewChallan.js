@@ -30,13 +30,13 @@ export default function ViewChallan({ status }) {
         <>
             <div>
 
-                <h4 align="center">{status} Challans</h4>
+                <h4 align="center">{status} </h4>
                 {
                     Object.keys(challans).map((challan) => {
                         return (
 
                             <div className='challans'>
-                                {status === 'All' &&
+                                {status === 'All Challans' &&
 
                                     <Descriptions Descriptions
                                         title={count++ + ".  Challan ID :-  " + challans[challan]._id
@@ -60,7 +60,7 @@ export default function ViewChallan({ status }) {
                                         <Descriptions.Item label="Place">{challans[challan].place}</Descriptions.Item>
                                     </Descriptions>
                                 }
-                                {status === 'Pending' && challans[challan].status === 'pending' &&
+                                {status === 'Pending Challans' && challans[challan].status === 'pending' &&
 
                                     <Descriptions Descriptions
                                         title={count++ + ".  Challan ID :-  " + challans[challan]._id

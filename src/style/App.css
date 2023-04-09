@@ -2,12 +2,16 @@
   /* padding-top: 15vh !important; */
 }
 .home {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  /* border: 2px solid red; */
   height: 100vh;
+  background: url("../assets/home3.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.content {
+  padding-top: 7vh;
+  text-align: center;
+  /* border: 2px solid red; */
 }
 .App {
   text-align: center;

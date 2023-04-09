@@ -38,7 +38,7 @@ export default function Logout() {
     } else {
         return (
             <div>
-                <h1>Logout</h1>
+                {/* <h1>Logout</h1> */}
             </div>
         )
     }

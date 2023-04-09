@@ -22,6 +22,7 @@ import {
     MenuUnfoldOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, theme, message, Result, Spin } from 'antd';
+import logo from '../assets/logo.png'
 const { Header, Content, Footer, Sider } = Layout;
 
 
@@ -80,15 +81,12 @@ export default function Dashboard() {
                         <Sider className='sider' collapsible trigger={null} collapsed={collapsed} width={210}>
                             <div
                                 style={{
-                                    height: 32,
-                                    margin: 15,
-                                    borderRadius: '7px',
-                                    background: 'rgba(255, 255, 255, 0.15)',
-                                    textAlign: "center",
-                                    color: 'white',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center'
                                 }}
                             >
-                                Logo
+                                <img src={logo} alt="logo" className='logo' />
                             </div>
 
                             <div className="menubar">
@@ -153,7 +151,7 @@ export default function Dashboard() {
                                             {
                                                 key: 'challans',
                                                 icon: <UnorderedListOutlined />,
-                                                label: 'View Challans',
+                                                label: Cookies.get('person') === 'admin' ? 'view challans' : 'view admins',
                                                 children: [
                                                     Cookies.get('person') === 'admin' &&
                                                     {
@@ -240,7 +238,7 @@ export default function Dashboard() {
                                     className: 'trigger',
                                     onClick: () => setCollapsed(!collapsed),
                                 })}
-                                <h4>Admin Dashboard</h4>
+                                <h4>{Cookies.get('person')} Dashboard</h4>
                             </Header>
 
                             <Content className='dashboardContent' style={{ padding: 0, paddingBottom: 20 }}>
@@ -248,8 +246,9 @@ export default function Dashboard() {
                                     <div style={{ padding: 20 }}>
                                         {sliderItem === 'registration' && <Register registerFor={registerFor} />}
                                         {sliderItem === 'dashboard' && <InfoCard />}
-                                        {sliderItem === 'all' && <ViewChallan status={'All'} />}
-                                        {sliderItem === 'pending' && <ViewChallan status={'Pending'} />}
+                                        {sliderItem === 'all' && <ViewChallan status={'All Challans'} />}
+                                        {sliderItem === 'pending' && <ViewChallan status={'Pending Challans'} />}
+                                        {sliderItem === 'Admins' && <ViewChallan status={'Admins'} />}
                                     </div>
                                 </div>
                             </Content>
