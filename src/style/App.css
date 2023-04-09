@@ -1,6 +1,14 @@
 .padding-top {
   /* padding-top: 15vh !important; */
 }
+.home {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* border: 2px solid red; */
+  height: 100vh;
+}
 .App {
   text-align: center;
 }

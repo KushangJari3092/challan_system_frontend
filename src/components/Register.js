@@ -121,14 +121,13 @@ export default function Register({ registerFor }) {
 
                 <Form onSubmit={handleSubmit}>
 
-                    <FormGroup className='profileContainer'>
+                    {/* <FormGroup className='profileContainer'>
                         <input ref={imgRef} hidden size='sm' type="file" name='picture' id='picture' onChange={(e) => { setFieldValue("picture", e.target.files[0]) }} />
                         {values?.picture ? <DisplayPicture file={values?.picture} /> : <img className='profilePic' src='https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-default-avatar-profile-icon-vector-social-media-user-image-vector-illustration-227787227.jpg' alt="profile img" />}
                         <button className='profileBtn' onClick={(e) => { e.preventDefault(); imgRef.current.click() }}>Profile Picture</button>
-                        {/* <Label for="exampleSelect"> <b>Profile Picture</b>  </Label> */}
                         {errors.picture && touched.picture ? <p className='form-error' >{errors.picture}</p> : null}
 
-                    </FormGroup>
+                    </FormGroup> */}
                     <FormGroup>
                         <Label for="Name"><b>Name</b></Label>
                         <Input invalid={errors.name && touched.name} valid={!errors.name && touched.name} placeholder="name..." type="text" name='name' id='name' size='sm' value={values.name} onChange={handleChange} onBlur={handleBlur} />

@@ -4,6 +4,7 @@ import context from "../Context/userContext";
 import { useHistory, NavLink, useLocation } from "react-router-dom"
 import Register from './Register';
 import InfoCard from './dhashboard components/InfoCard';
+import ViewChallan from './dhashboard components/ViewChallan';
 import '../style/dashboard.css'
 import Cookies from "js-cookie";
 import {
@@ -57,6 +58,7 @@ export default function Dashboard() {
         SuccessMsg();
         console.log('user in dashboard :>> ', user);
     }, []);
+    console.log('sliderItem :>> ', sliderItem);
 
 
     const history = useHistory()
@@ -99,6 +101,7 @@ export default function Dashboard() {
                                                 icon: <UsergroupAddOutlined />,
                                                 label: 'Registration',
                                                 children: [
+                                                    Cookies.get('person') === 'superAdmin' &&
                                                     {
                                                         key: 'admin',
                                                         icon: <UserOutlined />,
@@ -108,6 +111,7 @@ export default function Dashboard() {
                                                             setRegisterFor('Admin')
                                                         }
                                                     },
+                                                    Cookies.get('person') === 'admin' &&
                                                     {
                                                         key: 'police',
                                                         icon: <UserOutlined />,
@@ -120,75 +124,78 @@ export default function Dashboard() {
                                                 ],
 
                                             },
-                                            {
-                                                key: 'manage',
-                                                icon: <SettingOutlined />,
-                                                label: 'Manage',
-                                                children: [
-                                                    {
-                                                        key: 'admin manage',
-                                                        icon: <UserOutlined />,
-                                                        label: 'Admin',
-                                                        onClick: () => {
-                                                            setSliderItem('manage')
-                                                        }
-                                                    },
-                                                    {
-                                                        key: 'police manage',
-                                                        icon: <UserOutlined />,
-                                                        label: 'Policeman',
-                                                        onClick: () => {
-                                                            setSliderItem('manage')
-                                                        }
-                                                    }
-                                                ],
-                                                onClick: () => {
+                                            // {
+                                            //     key: 'manage',
+                                            //     icon: <SettingOutlined />,
+                                            //     label: 'Manage',
+                                            //     children: [
+                                            //         {
+                                            //             key: 'admin manage',
+                                            //             icon: <UserOutlined />,
+                                            //             label: 'Admin',
+                                            //             onClick: () => {
+                                            //                 setSliderItem('manage')
+                                            //             }
+                                            //         },
+                                            //         {
+                                            //             key: 'police manage',
+                                            //             icon: <UserOutlined />,
+                                            //             label: 'Policeman',
+                                            //             onClick: () => {
+                                            //                 setSliderItem('manage')
+                                            //             }
+                                            //         }
+                                            //     ],
+                                            //     onClick: () => {
 
-                                                }
-                                            },
+                                            //     }
+                                            // },
                                             {
                                                 key: 'challans',
                                                 icon: <UnorderedListOutlined />,
                                                 label: 'View Challans',
                                                 children: [
+                                                    Cookies.get('person') === 'admin' &&
                                                     {
                                                         key: 'all',
                                                         icon: <SnippetsOutlined />,
                                                         label: 'All',
                                                         onClick: () => {
-                                                            setSliderItem('view challans')
+                                                            setSliderItem('all')
                                                         }
                                                     },
-                                                    {
-                                                        key: 'new',
-                                                        icon: <PlusCircleOutlined />,
-                                                        label: 'New',
-                                                        onClick: () => {
-                                                            setSliderItem('view challans')
-                                                        }
-                                                    },
+
+                                                    Cookies.get('person') === 'admin' &&
                                                     {
                                                         key: 'pending',
                                                         icon: <ExclamationCircleOutlined />,
                                                         label: 'Pending',
                                                         onClick: () => {
-                                                            setSliderItem('view challans')
+                                                            setSliderItem('pending')
+                                                        }
+                                                    },
+
+                                                    Cookies.get('person') === 'superAdmin' &&
+                                                    {
+                                                        key: 'Admins',
+                                                        icon: <ExclamationCircleOutlined />,
+                                                        label: 'Admins',
+                                                        onClick: () => {
+                                                            setSliderItem('Admins')
                                                         }
                                                     }
                                                 ],
-                                                onClick: () => {
-                                                    setSliderItem('')
-                                                }
-                                            },
-                                            {
-                                                key: 'about',
-                                                icon: <QuestionCircleOutlined />,
-                                                label: 'About Challans',
 
-                                                onClick: () => {
-                                                    setSliderItem('info')
-                                                }
                                             },
+                                            // {
+                                            //     key: 'about',
+                                            //     icon: <QuestionCircleOutlined />,
+                                            //     label: 'About Challans',
+
+                                            //     onClick: () => {
+                                            //         setSliderItem('info')
+                                            //     }
+                                            // },
                                             {
                                                 key: 'dashboard',
                                                 icon: <DashboardOutlined />,
@@ -235,14 +242,18 @@ export default function Dashboard() {
                                 })}
                                 <h4>Admin Dashboard</h4>
                             </Header>
+
                             <Content className='dashboardContent' style={{ padding: 0, paddingBottom: 20 }}>
                                 <div className="dashboardContainer">
                                     <div style={{ padding: 20 }}>
                                         {sliderItem === 'registration' && <Register registerFor={registerFor} />}
                                         {sliderItem === 'dashboard' && <InfoCard />}
+                                        {sliderItem === 'all' && <ViewChallan status={'All'} />}
+                                        {sliderItem === 'pending' && <ViewChallan status={'Pending'} />}
                                     </div>
                                 </div>
                             </Content>
+
                             <Footer className='footer'>
                                 Challan System - Design Engineering ©20cp026-20cp034-20cp016
                             </Footer>

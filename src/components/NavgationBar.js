@@ -51,6 +51,10 @@ function NavigationBar() {
                                             Cookies.get('person') === 'police' &&
                                             <Link class="dropdown-item" to="/policeForm" role="button" style={{ fontWeight: 'bold' }}> Fill Challan</Link>
                                         }
+                                        {
+                                            Cookies.get('person') === 'user' &&
+                                            <Link class="dropdown-item" to="/profile" role="button" style={{ fontWeight: 'bold' }}> Profile</Link>
+                                        }
                                         <div class="dropdown-divider"></div>
                                         <Link class="dropdown-item" to="/logout" role="button"> Logout</Link>
                                     </div>

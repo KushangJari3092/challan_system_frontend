@@ -18,11 +18,12 @@ const Login = () => {
     const params = useParams();
     const { person } = params;
 
-    const { user, setUser, nav, setNav, logged, setLogged } = useContext(context);
+    const { user, setUser, challans, setChallans, setLogged } = useContext(context);
     const [uname, setUname] = useState('')
     const [password, setPassword] = useState('')
     const [msg, setMsg] = useState('')
 
+    const arr = [];
     const [messageApi, contextHolder] = message.useMessage();
     const [load, setLoad] = useState(false)
 
@@ -60,6 +61,16 @@ const Login = () => {
                 setLogged(true)
                 history.push('/policeForm')
             }
+            if (person === 'user') {
+                alert(data.success)
+                let lastPropertyName = Object.keys(data).pop();
+                delete data[lastPropertyName];
+                console.log(data);
+                setChallans(data);
+                setUser({ name: data[0].user, id: data[0].licenseNo });
+                setLogged(true)
+                history.push('/profile')
+            }
             console.log('msg in login:>> ', msg);
         }
         setLoad(false)
@@ -96,8 +107,9 @@ const Login = () => {
                                 </div>
                                 <div class="forms-wrap">
                                     <Form name="basic" initialValues={{ remember: true, }} >
+
                                         <Form.Item
-                                            label={person === 'user' ? "mobile" : person + " ID"}
+                                            label={person === 'user' ? "vehicle number" : person + " ID"}
                                             name="userID"
                                             rules={[
                                                 {
@@ -112,6 +124,7 @@ const Login = () => {
                                         <Form.Item
                                             label="Password"
                                             name="password"
+                                            style={person !== 'user' ? { display: 'block' } : { display: 'none' }}
                                             rules={[
                                                 {
                                                     required: true,
@@ -119,7 +132,8 @@ const Login = () => {
                                                 },
                                             ]}
                                         >
-                                            <Input.Password onChange={(e) => setPassword(e.target.value)} />
+                                            {person !== 'user' &&
+                                                <Input.Password onChange={(e) => setPassword(e.target.value)} />}
                                         </Form.Item>
 
 

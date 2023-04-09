@@ -1,9 +1,9 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import context from "../Context/userContext.js";
 import Cookies from "js-cookie";
 import '../style/policeForm.css'
-import { Layout, Menu, theme, message, Result } from 'antd';
-import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
+import { Layout } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
 import { Button, Input, Form, Select, Upload, Spin } from 'antd';
 const { TextArea } = Input;
 
@@ -12,14 +12,7 @@ const PoliceForm = () => {
 
     const { user, logged, setLogged } = useContext(context)
     const { Option } = Select;
-    const formItemLayout = {
-        labelCol: {
-            span: 6,
-        },
-        wrapperCol: {
-            span: 14,
-        },
-    };
+    const formItemLayout = { labelCol: { span: 6 }, wrapperCol: { span: 14 }, };
     const normFile = (e) => {
         console.log('Upload event:', e);
         if (Array.isArray(e)) {
@@ -27,9 +20,35 @@ const PoliceForm = () => {
         }
         return e?.fileList;
     };
-    const onFinish = (values) => {
-        console.log('Received values of form: ', values);
+    const onFinish = async (vals) => {
+        const d = new Date();
+        const date = d.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        const time = d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
+
+        const due = new Date(d.getFullYear(), d.getMonth() + 1, d.getDate());
+        const dueDate = due.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+        const { pname, pid, offense, place, plateNum, vehicleType } = vals;
+        const res = await fetch('http://localhost:7100/submitChallan', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+            body: JSON.stringify({ pname, pid, offense, place, plateNum, vehicleType, date, time, dueDate })
+        })
+
+        const data = await res.json();
+        console.log('data in police form :>> ', data);
+        if (data?.err) {
+            window.alert(data.err)
+        }
+        else if (data?.success) {
+            window.alert(data.success)
+        }
     };
+
+
     useEffect(() => {
         if (Cookies.get('person')) { setLogged(true) } else { setLogged(false) }
         console.log('user in form :>> ', user);
@@ -63,11 +82,11 @@ const PoliceForm = () => {
                                             border: '0px solid green'
                                         }}
                                     >
-                                        <Form.Item className='label' initialValue={user?.name} label="Police name" name="name">
+                                        <Form.Item className='label' initialValue={user?.name} label="Police name" name="pname">
                                             <Input disabled style={{ color: 'black' }} />
                                         </Form.Item>
 
-                                        <Form.Item className='label' initialValue={user?.id} label="Police ID" name="id">
+                                        <Form.Item className='label' initialValue={user?.id} label="Police ID" name="pid" >
                                             <Input disabled style={{ color: 'black' }} />
                                         </Form.Item>
 
@@ -86,7 +105,12 @@ const PoliceForm = () => {
                                             </Select>
                                         </Form.Item>
 
-                                        <Form.Item className='label' label="Vehicle number" name="plateNum"><Input /></Form.Item>
+                                        <Form.Item className='label' label="Vehicle number" name="plateNum" rules={[
+                                            {
+                                                required: true,
+                                                message: 'Please fill Vehicle number!',
+                                            },
+                                        ]}><Input /></Form.Item>
 
                                         <Form.Item
                                             name="offense"
@@ -96,24 +120,24 @@ const PoliceForm = () => {
                                                 {
                                                     required: true,
                                                     message: 'Please Select Offenses!',
-                                                    type: 'array',
                                                 },
                                             ]}
                                         >
-                                            <Select mode="multiple" placeholder="Select Offenses">
-                                                <Option value="o1">o1</Option>
-                                                <Option value="o2">o2</Option>
-                                                <Option value="o3">o3</Option>
-                                                <Option value="o4">o4</Option>
-                                                <Option value="o5">o5</Option>
-                                                <Option value="o6">o6</Option>
+                                            <Select placeholder="Select Offenses">
+                                                <Option value="Violation of road regulations">Violation of road regulations</Option>
+                                                <Option value="Driving without License">Driving without License</Option>
+                                                <Option value="Over Speeding">Over Speeding</Option>
+                                                <Option value="Drunken Driving">Drunken Driving</Option>
+                                                <Option value="offense related to accident">offense related to accident</Option>
+                                                <Option value="Violation of Parking regulations">Violation of Parking regulations</Option>
                                             </Select>
                                         </Form.Item>
 
                                         <Form.Item className='label' label="Offense place" name='place'>
                                             <TextArea rows={2} />
                                         </Form.Item>
-                                        <Form.Item
+
+                                        {/* <Form.Item
                                             name="img"
                                             className='label'
                                             label="Upload vehicle image"
@@ -123,7 +147,7 @@ const PoliceForm = () => {
                                             <Upload name="logo" action="/upload.do" listType="picture">
                                                 <Button icon={<UploadOutlined />}>Click to upload</Button>
                                             </Upload>
-                                        </Form.Item>
+                                        </Form.Item> */}
 
                                         <Form.Item wrapperCol={{ span: 12, offset: 8, }}>
                                             <Button type="primary" htmlType="submit">
@@ -136,7 +160,7 @@ const PoliceForm = () => {
                         </Content>
 
                         <Footer className='footer'>
-                            Challan System - Design Engineering ©20cp026-20cp034-20cp016
+                            Challan System - Design Engineering ©20cp016-20cp026-20cp034
                         </Footer>
                     </Layout>
                 </Layout>

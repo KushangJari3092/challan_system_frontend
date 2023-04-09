@@ -45,7 +45,7 @@ export default function InfoCard() {
 
                 <form method='GET'>
                     <div className="" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                        <h4>Admin Information</h4>
+                        {Cookies.get('person') === 'admin' ? <h4>Admin Information</h4> : <h4>Super Admin Information</h4>}
 
                         <Card className='infoCard mt-0 pt-0'>
                             <Meta
@@ -79,9 +79,6 @@ export default function InfoCard() {
                         </Card>
                     </div>
                 </form>
-
-
-
             </>
         )
     }
