@@ -95,28 +95,42 @@ export default function ViewChallan({ status }) {
                                     </>
                                 }
                                 {status === 'Pending Challans' && challans[challan].status === 'pending' &&
-
-                                    <Descriptions Descriptions
-                                        title={count++ + ".  Challan ID :-  " + challans[challan]._id
-                                        }
-                                        bordered
-                                        column={{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}
-                                    >
-                                        <Descriptions.Item label="License number">{challans[challan].licenseNo}</Descriptions.Item>
-                                        <Descriptions.Item label="Mobile number">{challans[challan].mobile}</Descriptions.Item>
-                                        <Descriptions.Item label="Email">{challans[challan].email}</Descriptions.Item>
-                                        <Descriptions.Item label="Vehicle type">{challans[challan].vehicleType}</Descriptions.Item>
-                                        <Descriptions.Item label="Offense">{challans[challan].offense}</Descriptions.Item>
-                                        <Descriptions.Item label="time">{challans[challan].time}</Descriptions.Item>
-                                        <Descriptions.Item label="date">{challans[challan].date}</Descriptions.Item>
-                                        <Descriptions.Item label="Due Date" ><span style={{ color: 'red' }}>{challans[challan].dueDate}</span></Descriptions.Item>
-                                        <Descriptions.Item label="Amount"><b>{challans[challan].amount}</b></Descriptions.Item>
-                                        <Descriptions.Item label="Status">
-                                            <span style={challans[challan].status === 'pending' ? { color: 'red' } : { color: 'green' }}>{challans[challan].status}</span>
-                                        </Descriptions.Item>
-                                        <Descriptions.Item label="Police officer">{challans[challan].policeName}</Descriptions.Item>
-                                        <Descriptions.Item label="Place">{challans[challan].place}</Descriptions.Item>
-                                    </Descriptions>
+                                    <>
+                                        <Descriptions Descriptions
+                                            title={count++ + ".  Challan ID :-  " + challans[challan]._id
+                                            }
+                                            bordered
+                                            column={{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}
+                                        >
+                                            <Descriptions.Item label="License number">{challans[challan].licenseNo}</Descriptions.Item>
+                                            <Descriptions.Item label="Mobile number">{challans[challan].mobile}</Descriptions.Item>
+                                            <Descriptions.Item label="Email">{challans[challan].email}</Descriptions.Item>
+                                            <Descriptions.Item label="Vehicle type">{challans[challan].vehicleType}</Descriptions.Item>
+                                            <Descriptions.Item label="Offense">{challans[challan].offense}</Descriptions.Item>
+                                            <Descriptions.Item label="time">{challans[challan].time}</Descriptions.Item>
+                                            <Descriptions.Item label="date">{challans[challan].date}</Descriptions.Item>
+                                            <Descriptions.Item label="Due Date" ><span style={{ color: 'red' }}>{challans[challan].dueDate}</span></Descriptions.Item>
+                                            <Descriptions.Item label="Amount"><b>{challans[challan].amount}</b></Descriptions.Item>
+                                            <Descriptions.Item label="Status">
+                                                <span style={challans[challan].status === 'pending' ? { color: 'red' } : { color: 'green' }}>{challans[challan].status}</span>
+                                            </Descriptions.Item>
+                                            <Descriptions.Item label="Police officer">{challans[challan].policeName}</Descriptions.Item>
+                                            <Descriptions.Item label="Place">{challans[challan].place}</Descriptions.Item>
+                                        </Descriptions>
+                                        <form onSubmit={sendMemo}>
+                                            <input type="hidden" name="name" value={challans[challan].user} />
+                                            <input type="hidden" name="offense" value={challans[challan].offense} />
+                                            <input type="hidden" name="date" value={challans[challan].date} />
+                                            <input type="hidden" name="amount" value={challans[challan].amount} />
+                                            <input type="hidden" name="place" value={challans[challan].place} />
+                                            <input type="hidden" name="toemail" value={challans[challan].email} />
+                                            {challans[challan].status === 'pending' && (
+                                                <button className='btn btn-primary' type="submit" style={{ margin: '10px' }}>
+                                                    Send Memo
+                                                </button>
+                                            )}
+                                        </form>
+                                    </>
                                 }
 
                             </div>

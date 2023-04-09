@@ -9,7 +9,7 @@ export default function Home() {
             <div className="home">
 
 
-                <h1 className='content'>welcome to E-challan system</h1>
+                <h1 className='content'>Welcome to E-challan system</h1>
                 {/* {Cookies.get('person') && <h1>Hello {Cookies.get('person')}</h1>} */}
 
             </div>
