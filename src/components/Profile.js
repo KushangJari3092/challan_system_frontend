@@ -2,7 +2,7 @@ import { useContext, useEffect, useState, React } from 'react';
 import context from "../Context/userContext.js";
 import { Layout, Spin, Descriptions } from 'antd';
 import Cookies from "js-cookie";
-
+import StripeCheckout from 'react-stripe-checkout';
 import { DownOutlined, FrownFilled, MehOutlined, SmileOutlined, FrownOutlined } from '@ant-design/icons';
 import '../style/profile.css'
 const { Header, Content, Footer } = Layout;
@@ -21,6 +21,27 @@ export default function Profile() {
     }, [])
 
 
+    const [totalAmt, setTotalAmt] = useState(0);
+    const [am, setAm] = useState({
+        name: "Pay Challan",
+        description: "the sample code",
+    })
+
+    useEffect(() => {
+        setTotalAmt(total)
+    }, [challans])
+
+    const doSet = async (currAmt, chid) => {
+        const response = await fetch('http://localhost:7100/checkout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+            body: JSON.stringify({ currAmt, totalAmt, status: 'paid', chid })
+        });
+    }
+
 
     return (
         <Layout >
@@ -37,7 +58,6 @@ export default function Profile() {
 
                         {
                             Object.keys(challans).map((challan) => {
-                                {/* console.log(challans[challan]); */ }
                                 { challans[challan].status === 'pending' ? total += challans[challan].amount : total += 0; }
                                 return (
                                     <>
@@ -64,7 +84,8 @@ export default function Profile() {
                                             </Descriptions>
 
                                         </div>
-
+                                        {challans[challan].status === 'pending' ? <StripeCheckout className="center" stripeKey="pk_test_51N6ReOSElB0MiJYphkCJnPukTn75ZWmFWaPMabhoe6aaN3PbkLYwAsa9CBXMVbflwK2MdhTRe19ruzy4EyKlHkcw00y20l9U1D" token={() => { doSet(challans[challan].amount, challans[challan]._id); }} amount={challans[challan].amount * 100} name={am.name} >
+                                        </StripeCheckout> : <span></span>}
                                     </>
                                 )
                             })

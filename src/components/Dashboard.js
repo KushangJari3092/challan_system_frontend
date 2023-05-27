@@ -23,6 +23,7 @@ import {
 } from '@ant-design/icons';
 import { Layout, Menu, theme, message, Result, Spin } from 'antd';
 import logo from '../assets/logo.png'
+import Viewadmin from './dhashboard components/Viewadmin';
 const { Header, Content, Footer, Sider } = Layout;
 
 
@@ -248,7 +249,7 @@ export default function Dashboard() {
                                         {sliderItem === 'dashboard' && <InfoCard />}
                                         {sliderItem === 'all' && <ViewChallan status={'All Challans'} />}
                                         {sliderItem === 'pending' && <ViewChallan status={'Pending Challans'} />}
-                                        {sliderItem === 'Admins' && <ViewChallan status={'Admins'} />}
+                                        {sliderItem === 'Admins' && <Viewadmin />}
                                     </div>
                                 </div>
                             </Content>

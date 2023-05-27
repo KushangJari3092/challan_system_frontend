@@ -17,6 +17,7 @@ import ErrorPage from './components/ErrorPage';
 import PoliceForm from './components/PoliceForm';
 import Profile from './components/Profile';
 import userContext from './Context/userContext';
+import UserForm from './components/UserForm';
 
 
 function App() {
@@ -73,6 +74,7 @@ function App() {
               <Route exact path='/dashboard' component={Cookies.get('person') === 'admin' || 'superAdmin' ? Dashboard : ErrorPage} />
               <Route exact path='/policeForm' component={Cookies.get('person') === 'police' ? PoliceForm : ErrorPage} />
               <Route exact path='/profile' component={Cookies.get('person') === 'user' ? Profile : ErrorPage} />
+              <Route exact path='/userform' component={UserForm} />
             </Switch>
           </div>
         </Router>
